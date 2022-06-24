@@ -46,5 +46,5 @@ Di seguito una tabella di tutti i settaggi contenuti nel file ***settings.ini***
 | OS | Versione Software | Esito |
 |--|--|--|
 | Windows 11 | 1.0.1 | ✅ |
-| Windows 10 | 1.0.1 | ✅ |
+| Windows 10 | 1.0.2 | ✅ |
 | Windows 7 | -- | Da testare |
