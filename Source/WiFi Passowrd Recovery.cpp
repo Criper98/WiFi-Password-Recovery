@@ -1,7 +1,7 @@
 #include <iostream>
 #include <windows.h>
-#include <essentials.h> // Libreria per semplificare avriate funzioni
-#include <EssCurl.h> // Libreria per semplificare l'utilizzo di CURL, in questo caso verr‡ usata per il bot Telegram
+#include <essentials.h> // Libreria per semplificare svariate funzioni
+#include <EssCurl.h> // Libreria per semplificare l'utilizzo di CURL, in questo caso verr√† usata per il bot Telegram
 
 using namespace std;
 
@@ -23,7 +23,7 @@ int main()
 	string buffer;
 	string Versione="1.0.2"; // Versione locale del programma
 	bool Debug=false;
-	vector<string> SSID; // Utilizzo i vettori per l'allocazione dinamica (e perchÈ sono belli :3)
+	vector<string> SSID; // Utilizzo i vettori per l'allocazione dinamica (e perch√© sono belli :3)
 	vector<string> Password;
 	
 	cu.ConsoleTitle("WiFi Password Recovery ~ by Criper98"); // Cambio il titolo della finestra di console
@@ -89,7 +89,7 @@ int main()
 	lg.WriteLog("Acquisizione profili.");
 	for(int i=0, j=0; buffer.find("Tutti i profili utente", i) != string::npos; j++) // Salvo su vettore i nomi dei profili di rete
 	{
-		SSID.push_back(SimpleFind(buffer, ": ", "\n", j)); // SimpleFind Ë un substr semplificato con l'implementazione delle iterazioni (j)
+		SSID.push_back(SimpleFind(buffer, ": ", "\n", j)); // SimpleFind √® un substr semplificato con l'implementazione delle iterazioni (j)
 		i = buffer.find(": ", i)+2;
 	}
 	lg.WriteLog("Profili acquisiti: "+to_string(SSID.size())+".");
@@ -101,9 +101,9 @@ int main()
 	lg.WriteLog("Aquisizione SSID e Password.");
 	for(int i=0; i<SSID.size(); i++) // Salvo su vettore la password e il vero nome dell'SSID della rete
 	{
-		buffer=gu.GetCMDOutput("netsh wlan show profile name=\""+SSID[i]+"\" key=clear"); // Comando per ottenere i dettagli del profilo di rete specificato e mostrare in chiaro la password (se c'Ë)
+		buffer=gu.GetCMDOutput("netsh wlan show profile name=\""+SSID[i]+"\" key=clear"); // Comando per ottenere i dettagli del profilo di rete specificato e mostrare in chiaro la password (se c'√®)
 		
-		if(buffer.find("Contenuto chiave") == string::npos) // Se non c'Ë la password:
+		if(buffer.find("Contenuto chiave") == string::npos) // Se non c'√® la password:
 		{
 			lg.WriteLog("Password non trovata per il profilo "+to_string(i));
 			Password.push_back("Password non trovata");
@@ -147,7 +147,7 @@ void CheckUpdate(string Versione, Log& lg) // Funzione per controllare la presen
 	GeneralUtils gu;
 	
 	lg.WriteLog("Verifica Update.");
-	string LastRelease=gh.GetRepoTag("criper98", "wifi-password-recovery", "UserAuth"); // Ottengo il TAG pi˘ recente
+	string LastRelease=gh.GetRepoTag("criper98", "wifi-password-recovery", "UserAuth"); // Ottengo il TAG pi√π recente
 	
 	if(LastRelease != Versione) // Se le versioni non coincidono:
 	{
@@ -157,7 +157,7 @@ void CheckUpdate(string Versione, Log& lg) // Funzione per controllare la presen
 	}
 }
 
-string GetChatID(TelegramBot& tb, Log& lg) // Funzione per ottenere l'ID della chat al quale il bot Telegram dovr‡ mandare i messaggi
+string GetChatID(TelegramBot& tb, Log& lg) // Funzione per ottenere l'ID della chat al quale il bot Telegram dovr√† mandare i messaggi
 {
 	LastMsg lm; // Struttura definita in EssCurl per salvare i dati dell'ultimo messaggio ricevuto dal bot
 	GeneralUtils gu;
@@ -171,7 +171,7 @@ string GetChatID(TelegramBot& tb, Log& lg) // Funzione per ottenere l'ID della c
 		
 		if(lm.ChatID.find("-1") == string::npos) // Se ricevo un messaggio:
 		{
-			tb.UpdateID++; // Aggiorno l'ID del messaggio per segnarlo come "gi‡ letto" internamente
+			tb.UpdateID++; // Aggiorno l'ID del messaggio per segnarlo come "gi√† letto" internamente
 			if(lm.Text == to_string(Number)) // Se il messaggio ricevuto corrisponde al numero generato:
 			{
 				cout<<"Chat associata all'utente ["<<lm.Username<<"]"<<endl;
