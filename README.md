@@ -31,12 +31,13 @@ Di seguito una tabella di tutti i settaggi contenuti nel file ***settings.ini***
 | Chat_ID | Valore numerico | Indica l'ID della chat Telegram alla quale il bot deve fare riferimento per mandare i messaggi. Questo valore viene impostato automaticamente, è sconsigliata la modifica manuale. |
 | HideConsole | true / false | Se impostato su "true" il programma si nasconderà. |
 | DebugMode | true / false | Se impostato su "true" il programma va in modalità Debug. Si consiglia di tenerlo sempre "false" |
+| CheckUpdate | true / false | Se impostato su "true" il programma verificherà la presenza di Update. |
 
 ----
 ## Prossimi Aggiornamenti
 
-- [ ] Check della connessione ad internet.
-- [ ] Controllo degli Update.
+- [X] Check della connessione ad internet. (1.0.2)
+- [X] Controllo degli Update. (1.0.2)
 - [ ] Interfaccia CLI.
 
 ----
