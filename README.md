@@ -19,7 +19,7 @@ Inoltre **è totalmente portatile**, basta mettere l'eseguibile e i file .dll e 
 
 Al primo avvio del programma verrà chiesto di associare la chat da usare per i messaggi mandati dal bot, per fare ciò sarà necessario seguire i seguenti punti:
 - Avviare la chat su Telegram con il bot [@WiFiPRbot](https://t.me/WiFiPRbot).
-- Avviare WiFi Password Recovery su un computer qualsiasi connesso alla rete.
+- Avviare WiFi Password Recovery su un qualsiasi computer connesso alla rete.
 - Scrivere al bot il codice generato dal programma.
 - Se non ci sono problemi il bot ti risponderà "Chat associata!".
 
@@ -34,14 +34,14 @@ Di seguito una tabella di tutti i settaggi contenuti nel file ***settings.ini***
 |--|--|--|
 | SetChatID | true / false | Se impostato su "true" all'avvio del programma verrà richiesta l'associazione della chat Telegram. |
 | Chat_ID | Valore numerico | Indica l'ID della chat Telegram alla quale il bot deve fare riferimento per mandare i messaggi. Questo valore viene impostato automaticamente, è sconsigliata la modifica manuale. |
-| HideConsole | true / false | Se impostato su "true" il programma si nasconderà e porcederà all'invio delle password su Telegram senza bisogno di alcun input. |
+| HideConsole | true / false | Se impostato su "true" il programma si nasconderà e procederà all'invio delle password su Telegram senza bisogno di alcun input. |
 | DebugMode | true / false | Se impostato su "true" il programma va in modalità Debug. Si consiglia di tenerlo sempre "false" |
 | CheckUpdate | true / false | Se impostato su "true" il programma verificherà la presenza di Update. |
 
 ----
 ## Prossimi Aggiornamenti
 
-- [X] Check della connessione ad internet. (1.0.2)
+- [X] Check della connessione a internet. (1.0.2)
 - [X] Controllo degli Update. (1.0.2)
 - [X] Interfaccia CLI. (1.0.3)
 
