@@ -19,7 +19,7 @@ Inoltre **è totalmente portatile**, basta mettere l'eseguibile e i file .dll e 
 
 Al primo avvio del programma verrà chiesto di associare la chat da usare per i messaggi mandati dal bot, per fare ciò sarà necessario seguire i seguenti punti:
 - Avviare la chat su Telegram con il bot [@WiFiPRbot](https://t.me/WiFiPRbot).
-- Avviare WiFi Password Recovery su un computer qualsisasi connesso alla rete.
+- Avviare WiFi Password Recovery su un computer qualsiasi connesso alla rete.
 - Scrivere al bot il codice generato dal programma.
 - Se non ci sono problemi il bot ti risponderà "Chat associata!".
 
