@@ -31,7 +31,7 @@ string GetChatID(TelegramBot& tb, Log& lg) // Funzione per ottenere l'ID della c
 	cout<<"Attendo ricezione codice";
 	lb.DotsBar();
 	
-	while(true) // Loop per controllare ad intervalli di 1s i nuovi messaggi ricevuti sul bot
+	while(true) // Loop per controllare a intervalli di 1s i nuovi messaggi ricevuti sul bot
 	{
 		lm=tb.GetLastMessage(); // Interrogo le API di Telegram per ottenere l'ultimo messaggio, se non ci sono nuovi messaggi tutti gli elementi di LastMsg vengono popolati con un "-1"
 		
