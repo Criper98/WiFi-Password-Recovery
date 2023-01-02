@@ -5,7 +5,7 @@
 
 **WiFi Password Recovery** è un software di recupero password delle reti Wi-Fi salvate su un PC Windows.  
 Per rendere più agevole il procedimento viene utilizzato un **bot Telegram** che manda le password recuperate alla chat associata.  
-Inoltre **è totalmente portatile**, basta mettere l'eseguibile e i file .dll e .ini in una **chiavetta USB** ed eseguire il programma direttamente da essa senza bisogno di nessuna installazione.
+Inoltre **è totalmente portatile**, basta mettere l'eseguibile e il file .ini in una **chiavetta USB** ed eseguire il programma direttamente da essa senza bisogno di nessuna installazione.
 
 **Bot Telegram** -> [@WiFiPRbot](https://t.me/WiFiPRbot)
 
