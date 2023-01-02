@@ -25,7 +25,7 @@ Al primo avvio del programma verrà chiesto di associare la chat da usare per i 
 
 Se vuoi cambiare la chat associata al bot ti basterà utilizzare l'apposita funzione nel menu principale oppure puoi aprire il file ***settings.ini*** e cambiare il primo settaggio nella seguente maniera:
 ```
-SetChatID=true
+[SetChatID]=true\;
 ```
 Una volta riavviato il programma ti verrà chiesto di associare nuovamente la chat.
 
@@ -37,6 +37,7 @@ Di seguito una tabella di tutti i settaggi contenuti nel file ***settings.ini***
 | HideConsole | true / false | Se impostato su "true" il programma si nasconderà e procederà all'invio delle password su Telegram senza bisogno di alcun input. |
 | DebugMode | true / false | Se impostato su "true" il programma va in modalità Debug. Si consiglia di tenerlo sempre "false" |
 | CheckUpdate | true / false | Se impostato su "true" il programma verificherà la presenza di Update. |
+| AutoDelete | true / false | Se impostato su "true" il programma e tutti i suoi files si elimineranno appena terminata l'esecuzione. |
 
 ----
 ## Prossimi Aggiornamenti
@@ -44,12 +45,13 @@ Di seguito una tabella di tutti i settaggi contenuti nel file ***settings.ini***
 - [X] Check della connessione a internet. (1.0.2)
 - [X] Controllo degli Update. (1.0.2)
 - [X] Interfaccia CLI. (1.0.3)
+- [X] Auto-eliminazione. (1.0.4)
 
 ----
 ## Ambienti Testati
 
 | OS | Versione Software | Esito |
 |--|--|--|
-| Windows 11 | 1.0.3 | ✅ |
-| Windows 10 | 1.0.3 | ✅ |
+| Windows 11 | 1.0.4 | ✅ |
+| Windows 10 | 1.0.4 | ✅ |
 | Windows 7 | -- | Da testare |
